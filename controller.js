@@ -1,16 +1,25 @@
-const contacts = require('./model.js');
+// imports
+const { contacts } = require('./model');
+const { updateFile } = require('./model');
+const { displayContacts } = require('./view');
 
-// function for adding contacts
+// contact variables
+let contactName = ''
+let contactPhone = ''
+let contactEmail = ''
+
+// add contacts
 let addContact = (name, phone, email) => {
     contacts.push({
         name: name,
         phone: phone,
         email: email
     })
+    updateFile()
 }
 
-// stringify 
-const updatedJson = JSON.stringify(contacts, null, 2);
+let deleteContact = (name) => {
 
-// write
-fs.writeFileSync("contacts.json", updatedJson);
+}
+
+displayContacts();
