@@ -1,13 +1,6 @@
 // imports
-const { contacts } = require('./model');
-const { updateFile } = require('./model');
-const { displayContacts } = require('./view');
-
-// contact variables
-let contactName = 'Johan'
-let contactPhone = ''
-let contactEmail = ''
-let contactIndex = contacts.findIndex(c => c.name === contactName);
+const { contacts, updateFile } = require('./model');
+const { displayContacts, displayUpdate, displayDelete, displayMenu, displayAdd, contactIndex } = require('./view');
 
 // add contact
 let addContact = (name, phone, email) => {
@@ -34,7 +27,10 @@ let updateContact = (name, phone, email) => {
     }
 }
 
-
+displayMenu();
 displayContacts();
+displayAdd();
+displayUpdate();
+displayDelete();
 
 module.exports = {addContact, deleteContact, updateContact}
