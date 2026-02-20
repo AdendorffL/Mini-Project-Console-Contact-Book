@@ -1,12 +1,22 @@
 [
   {
-    "name": "Lourens Adendorff",
+    "name": "Lourens",
     "phone": "0823382284",
     "email": "lou.adendorff@gmail.com"
   },
   {
-    "name": "Johan Pieterse",
+    "name": "Johan",
     "phone": "0826241383",
     "email": "johanp@gmail.com"
+  },
+  {
+    "name": "Jane",
+    "phone": "0823218831",
+    "email": "janedoe@gmail.com"
+  },
+  {
+    "name": "John",
+    "phone": "0648494663",
+    "email": "johndoe@gmail.com"
   }
 ]
