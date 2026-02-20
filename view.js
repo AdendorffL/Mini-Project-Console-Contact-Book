@@ -1,32 +1,12 @@
 // imports
-const readline = require('readline');
 const { contacts } = require('./model');
-const { addContact, deleteContact, updateContact } = require('./controller');
-
-// user input interface start
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-// ask question function
-let askQuestion = (query) => {
-    return new Promise(resolve => rl.question(query, resolve));
-}
-
-// back to menu function
-const back = async () => {
-    let backToMenu = await askQuestion("Press 'b' for Back: ");
-    if (backToMenu = 'b') {
-        console.clear();
-        displayMenu();
-    }
-}
+const { back, navigate, addContact, deleteContact, updateContact } = require('./controller');
 
 // -------------------------------------
 // start menu
 // -------------------------------------
  const displayMenu = async () => {
+    console.clear();
     console.log('====================');
     console.log('CONSOLE CONTACT BOOK');
     console.log('====================');
@@ -35,41 +15,24 @@ const back = async () => {
     console.log('2. Add Contact');
     console.log('3. Delete Contact');
     console.log('4. Edit Contact');
-
-    // user input and logic
-    let num = await askQuestion("Enter(1-4): ");
+    console.log('5. Close Program')
     console.log('====================\n');
-        if (num == 1) {
-            console.clear();
-            displayContacts();
-        } else if (num == 2) {
-            console.clear();
-            displayAdd();
-        } else if (num == 3) {
-            console.clear();
-            displayDelete();
-        } else if (num == 4) {
-            console.clear();
-            displayUpdate();
-        } else {
-            console.log('Invalid Input: Please enter a number between 1 and 4');
-            displayMenu();
-        }
+
+    // logic
+    navigate(displayContacts, displayAdd, displayDelete, displayUpdate, displayMenu);
 }
 
 // -------------------------------------
 // add contact
 // -------------------------------------
 const displayAdd = async () => {
+    console.clear();
     console.log('====================');
     console.log('ADD CONTACT');
     console.log('====================\n');
 
-    // user input and logic
-    let userName = await askQuestion("Input User Name: ");
-    let userPhone = await askQuestion("Input User Phone: ");
-    let userEmail = await askQuestion("Input User Email: ");
-    addContact(userName, userPhone, userEmail);
+    // logic
+    await addContact();
     displayMenu();
 }
 
@@ -77,6 +40,7 @@ const displayAdd = async () => {
 // all contacts
 // -------------------------------------
 const displayContacts = () => {
+    console.clear();
     console.log('====================');
     console.log('ALL CONTACTS');
     console.log('====================\n');
@@ -88,17 +52,18 @@ const displayContacts = () => {
     console.log('====================\n');
 
     // user input and logic
-    back();
+    back(displayMenu);
 }
 
 // -------------------------------------
 // update contact details
 // -------------------------------------
 const displayUpdate = async () => {
+    console.clear();
     console.log('====================');
     console.log('EDIT CONTACT');
     console.log('====================\n');
-    contactCount = 0
+    let contactCount = 0
     contacts.forEach(contact => {
         contactCount ++;
         console.log(`${contactCount}. ${contact.name}`);
@@ -106,28 +71,20 @@ const displayUpdate = async () => {
     });
     console.log('====================\n'); 
 
-    // user input and logic
-    userIndex = await askQuestion("Input User Index Number: ");
-    userIndex --
-    if (userIndex < 0 || userIndex >= contacts.length) {
-        console.log('Invalid: number is not in list')
-    } else {
-        let userName = await askQuestion("Input User Name: ");
-        let userPhone = await askQuestion("Input User Phone: ");
-        let userEmail = await askQuestion("Input User Email: ");
-        updateContact(userIndex, userName, userPhone, userEmail);
-        displayMenu();
+    // logic
+    await updateContact();
+    displayMenu();
     }
-}
 
 // -------------------------------------
 // delete contact
 // -------------------------------------
 const displayDelete = async () => {
+    console.clear();
     console.log('====================');
     console.log('DELETE CONTACT');
     console.log('====================\n');
-    contactCount = 0
+    let contactCount = 0
     contacts.forEach(contact => {
         contactCount ++;
         console.log(`${contactCount}. ${contact.name}`);
@@ -135,16 +92,10 @@ const displayDelete = async () => {
     });
     console.log('====================\n'); 
 
-    // user input and logic
-    userIndex = await askQuestion("Input User Index Number: ");
-    userIndex --
-    if (userIndex < 0 || userIndex >= contacts.length) {
-        console.log('Invalid: number is not in list')
-    } else {
-        deleteContact(userIndex);
-    }
+    // logic 
+    await deleteContact();
     displayMenu();
 };
 
 // exports
-module.exports = {displayMenu, displayAdd, displayContacts, displayUpdate, displayDelete}
+module.exports = { displayMenu }

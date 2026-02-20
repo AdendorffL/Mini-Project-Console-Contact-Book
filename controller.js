@@ -1,32 +1,93 @@
 // imports
+const readline = require('readline');
 const { contacts, updateFile } = require('./model');
-const { displayContacts, displayUpdate, displayDelete, displayMenu, displayAdd,} = require('./view');
 
-// add contact
-let addContact = (name, phone, email) => {
-    contacts.push({
-        name: name,
-        phone: phone,
-        email: email
-    })
-    updateFile()
+// user input interface start
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+// ask question function
+let askQuestion = (query) => {
+    return new Promise(resolve => rl.question(query, resolve));
 }
 
-// delete contact
-let deleteContact = (index) => {
-    contacts.splice(index, 1);
-    //updateFile()
-}
-
-// update contact
-let updateContact = (index, name, phone, email) => {
-    contacts[index] = {
-        name: name,
-        phone: phone,
-        email: email
+// navigate menu
+let navigate = async (all, add, del, upd, men) => {
+    let num = await askQuestion("Enter(1-4): ");
+    if (num == 1) {
+        console.clear();
+        await all();
+    } else if (num == 2) {
+        console.clear();
+        await add();
+    } else if (num == 3) {
+        console.clear();
+        await del();
+    } else if (num == 4) {
+        console.clear();
+        await upd();
+    }else if (num == 5) {
+        rl.close();
+    } else {
+        console.log('Invalid Input: Please enter a number between 1 and 4\n');
+        await men();
     }
 }
 
-displayMenu();
+let back = async (men) => {
+    let enter = await askQuestion("Press 'ENTER' to go back to MENU: ");
+    console.clear();
+    men();
+}
 
-module.exports = {addContact, deleteContact, updateContact}
+// add contact
+let addContact = async () => {
+    let userName = await askQuestion("Input User Name: ");
+    let userPhone = await askQuestion("Input User Phone: ");
+    let userEmail = await askQuestion("Input User Email: ");
+    contacts.push({
+        name: userName,
+        phone: userPhone,
+        email: userEmail
+    })
+    updateFile();
+}
+
+// update contact
+let updateContact = async () => {
+    userIndex = await askQuestion("Input User Index Number: ");
+    userIndex --
+
+    // check if index is in list range
+    if (userIndex < 0 || userIndex >= contacts.length) {
+        console.log('Invalid: number is not in list')
+    } else {
+        // user input
+        let userName = await askQuestion("Input User Name: ");
+        let userPhone = await askQuestion("Input User Phone: ");
+        let userEmail = await askQuestion("Input User Email: ");
+        // update
+        contacts[userIndex] = {
+            name: userName,
+            phone: userPhone,
+            email: userEmail
+        }
+        updateFile();
+    }
+};
+
+// delete contact
+let deleteContact = async () => {
+    let userIndex = await askQuestion("Input User Index Number: ");
+    userIndex --
+    if (userIndex < 0 || userIndex >= contacts.length) {
+        console.log('Invalid: number is not in list')
+    } else {
+        contacts.splice(userIndex, 1);
+        updateFile();
+    }
+}
+
+module.exports = { back, navigate, addContact, deleteContact, updateContact }

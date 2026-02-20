@@ -1,6 +1,4 @@
-const { displayContacts, displayUpdate, displayDelete, displayMenu, displayAdd,} = require('./view');
+const { displayMenu } = require('./view');
 
-let appRunning = true;
-
-
-displayMenu;
+console.clear();
+displayMenu();
