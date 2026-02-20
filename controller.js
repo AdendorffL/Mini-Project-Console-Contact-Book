@@ -15,7 +15,7 @@ let askQuestion = (query) => {
 
 // navigate menu
 let navigate = async (all, add, del, upd, men) => {
-    let num = await askQuestion("Enter(1-4): ");
+    let num = await askQuestion("Enter(1-5): ");
     if (num == 1) {
         console.clear();
         await all();
@@ -57,7 +57,7 @@ let addContact = async () => {
 
 // update contact
 let updateContact = async () => {
-    userIndex = await askQuestion("Input User Index Number: ");
+    let userIndex = await askQuestion("Input User Index Number: ");
     userIndex --
 
     // check if index is in list range
