@@ -1,6 +1,6 @@
 // imports
 const { contacts, updateFile } = require('./model');
-const { displayContacts, displayUpdate, displayDelete, displayMenu, displayAdd, contactIndex } = require('./view');
+const { displayContacts, displayUpdate, displayDelete, displayMenu, displayAdd,} = require('./view');
 
 // add contact
 let addContact = (name, phone, email) => {
@@ -13,14 +13,14 @@ let addContact = (name, phone, email) => {
 }
 
 // delete contact
-let deleteContact = () => {
-    contacts.splice(contactIndex, 1);
+let deleteContact = (index) => {
+    contacts.splice(index, 1);
     //updateFile()
 }
 
 // update contact
-let updateContact = (name, phone, email) => {
-    contacts[contactIndex] = {
+let updateContact = (index, name, phone, email) => {
+    contacts[index] = {
         name: name,
         phone: phone,
         email: email
@@ -28,9 +28,5 @@ let updateContact = (name, phone, email) => {
 }
 
 displayMenu();
-displayContacts();
-displayAdd();
-displayUpdate();
-displayDelete();
 
 module.exports = {addContact, deleteContact, updateContact}
